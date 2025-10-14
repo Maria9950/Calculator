@@ -1,8 +1,16 @@
-﻿// Calculator.h : включаемый файл для стандартных системных включаемых файлов
-// или включаемые файлы для конкретного проекта.
+﻿#include <string>
 
-#pragma once
+class Calculator {
+public:
+    explicit Calculator(const std::string& expression);
+    double evaluate();
 
-#include <iostream>
+private:
+    bool eof() const;
+    void skip_ws();
+    double parse_number();
 
-// TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.
+private:
+    std::string s_;
+    std::size_t pos_;
+};

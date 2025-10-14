@@ -1,12 +1,10 @@
-﻿# CMakeList.txt: проект CMake для Calculator; включите исходный код и определения,
-# укажите здесь логику для конкретного проекта.
-#
+﻿cmake_minimum_required(VERSION 3.11)
+project(Calculator LANGUAGES CXX)
 
-# Добавьте источник в исполняемый файл этого проекта.
-add_executable (Calculator "Calculator.cpp" "Calculator.h")
+set(CMAKE_CXX_STANDARD 11)
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Calculator PROPERTY CXX_STANDARD 20)
-endif()
-
-# TODO: Добавьте тесты и целевые объекты, если это необходимо.
+add_executable(Calculator
+    main.cpp
+    Calculator.cpp
+    loader.cpp
+)
