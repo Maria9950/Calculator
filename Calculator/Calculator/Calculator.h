@@ -2,13 +2,19 @@
 
 class Calculator {
 public:
-    explicit Calculator(const std::string& expression);
+    Calculator(std::string expression);
     double evaluate();
 
 private:
-    bool eof() const;
+    bool eof();
     void skip_ws();
+    bool match(char c);
+
     double parse_number();
+    double parse_expr();
+    double parse_term();
+    double parse_unary();
+    double parse_primary();
 
 private:
     std::string s_;
