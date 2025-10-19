@@ -23,10 +23,10 @@ std::string format_number(double x) {
     return s;
 }
 
-
 int main(int argc, char* argv[]) {
     try {
         Loader loader;
+        loader.load_all("plugins");
 
         std::string expr;
         if (argc > 1) {
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
             std::getline(std::cin, expr);
         }
 
-        Calculator calc(expr);
+        Calculator calc(expr, &loader);
         double res = calc.evaluate();
         std::cout << format_number(res) << "\n";
         return 0;

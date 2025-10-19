@@ -1,14 +1,15 @@
 ﻿#include "Calculator.h"
+#include "loader.h"
 #include <cctype>
 #include <stdexcept>
 #include <cmath>
 
-Calculator::Calculator(std::string expression)
-    : s_(expression), pos_(0) {
+Calculator::Calculator(std::string expression, Loader* loader)
+    : s_(expression), pos_(0), loader_(loader) {
     skip_ws();
 }
 
-bool Calculator::eof(){
+bool Calculator::eof() {
     return pos_ >= s_.size();
 }
 
@@ -49,6 +50,45 @@ double Calculator::parse_number() {
     return std::stod(s_.substr(start, pos_ - start));
 }
 
+std::string Calculator::parse_ident() {
+    skip_ws();
+    std::size_t start = pos_;
+    if (eof()) return std::string();
+    unsigned char ch = static_cast<unsigned char>(s_[pos_]);
+    if (!(std::isalpha(ch) || s_[pos_] == '_')) {
+        return std::string();
+    }
+    ++pos_;
+    while (!eof()) {
+        ch = static_cast<unsigned char>(s_[pos_]);
+        if (std::isalnum(ch) || s_[pos_] == '_') {
+            ++pos_;
+        }
+        else {
+            break;
+        }
+    }
+    return s_.substr(start, pos_ - start);
+}
+
+std::vector<double> Calculator::parse_args() {
+    std::vector<double> args;
+    skip_ws();
+    if (match(')')) {
+        return args;
+    }
+    args.push_back(parse_expr());
+    skip_ws();
+    while (match(',')) {
+        args.push_back(parse_expr());
+        skip_ws();
+    }
+    if (!match(')')) {
+        throw std::runtime_error("Expected ')'");
+    }
+    return args;
+}
+
 double Calculator::parse_primary() {
     skip_ws();
     if (match('(')) {
@@ -58,6 +98,17 @@ double Calculator::parse_primary() {
         }
         return v;
     }
+    std::size_t save = pos_;
+    std::string id = parse_ident();
+    if (!id.empty() && match('(')) {
+        std::vector<double> args = parse_args();
+        if (!loader_) {
+            throw std::runtime_error("No plugin loader available");
+        }
+        return loader_->call(id, args);
+    }
+
+    pos_ = save;
     return parse_number();
 }
 
@@ -114,4 +165,3 @@ double Calculator::evaluate() {
     }
     return value;
 }
-
