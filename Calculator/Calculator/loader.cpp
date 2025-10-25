@@ -20,7 +20,6 @@ void Loader::load_all(std::string dir) {
     WIN32_FIND_DATAA data;
     HANDLE h = FindFirstFileA(pattern.c_str(), &data);
     if (h == INVALID_HANDLE_VALUE) {
-        std::cerr << "[plugin] no dll found in " << dir << "\n";
         return;
     }
 
@@ -29,7 +28,6 @@ void Loader::load_all(std::string dir) {
 
         HMODULE mod = LoadLibraryA(full.c_str());
         if (!mod) {
-            std::cerr << "[plugin] failed to load: " << full << "\n";
             continue;
         }
 
@@ -38,7 +36,6 @@ void Loader::load_all(std::string dir) {
         p_eval_fn  peval = (p_eval_fn)GetProcAddress(mod, "plugin_eval");
 
         if (!pname || !parity || !peval) {
-            std::cerr << "[plugin] bad dll (exports missing): " << full << "\n";
             FreeLibrary(mod);
             continue;
         }
@@ -49,7 +46,6 @@ void Loader::load_all(std::string dir) {
         ar = parity();
 
         if (!nm || *nm == '\0') {
-            std::cerr << "[plugin] empty name in: " << full << "\n";
             FreeLibrary(mod);
             continue;
         }
@@ -61,10 +57,6 @@ void Loader::load_all(std::string dir) {
 
         std::string name = nm;
         funcs_[name] = f;
-
-        std::cerr << "[plugin] loaded '" << name
-            << "' (arity=" << ar << ") from "
-            << data.cFileName << "\n";
 
     } while (FindNextFileA(h, &data));
 
