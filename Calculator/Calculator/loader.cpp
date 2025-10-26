@@ -6,6 +6,12 @@ typedef double      (*p_eval_fn)(const double*, int);
 
 Loader::Loader() {}
 
+Loader::~Loader() {
+    for (size_t i = 0; i < modules_.size(); ++i) {
+        if (modules_[i]) FreeLibrary(modules_[i]);
+    }
+}
+
 static std::string join_path(std::string a, std::string b) {
     if (!a.empty()) {
         char last = a[a.size() - 1];
@@ -58,6 +64,8 @@ void Loader::load_all(std::string dir) {
         std::string name = nm;
         funcs_[name] = f;
 
+        modules_.push_back(mod);
+
     } while (FindNextFileA(h, &data));
 
     FindClose(h);
@@ -79,6 +87,15 @@ double Loader::call(std::string name, const std::vector<double>& args) {
     }
 
     const double* ptr = args.empty() ? 0 : &args[0];
-    double res = f.eval(ptr, (int)args.size());
-    return res;
+
+    try {
+        return f.eval(ptr, (int)args.size());
+    }
+    catch (const std::exception& e) {
+        throw std::runtime_error(std::string("Function '") + name + "' failed: " + e.what());
+    }
+    catch (...) {
+        throw std::runtime_error(std::string("Function '") + name + "' failed (unknown error)");
+    }
+
 }

@@ -9,6 +9,7 @@
 class Loader {
 public:
     Loader();
+    ~Loader();
 
     void load_all(std::string dir);
 
@@ -24,4 +25,5 @@ private:
     };
 
     std::map<std::string, Func> funcs_;
+    std::vector<HMODULE> modules_;
 };
