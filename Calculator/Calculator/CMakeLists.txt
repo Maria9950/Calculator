@@ -24,6 +24,8 @@ endfunction()
 
 make_plugin(dynamic_sin  plugins/sin_deg.cpp)
 make_plugin(dynamic_cos  plugins/cos_deg.cpp)
+make_plugin(dynamic_ln  plugins/ln.cpp)
+make_plugin(dynamic_pow  plugins/pow.cpp)
 
 add_custom_command(TARGET Calculator POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:Calculator>/plugins"
