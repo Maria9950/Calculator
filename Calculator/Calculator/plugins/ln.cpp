@@ -11,7 +11,7 @@ extern "C" __declspec(dllexport) int plugin_arity() {
 
 extern "C" __declspec(dllexport) double plugin_eval(const double* args, int argc) {
     if (!args || argc != 1) {
-        throw std::runtime_error("ln: arity mismatch");
+        throw std::runtime_error("ln: arity mismatch"); 
     }
 
     double x = args[0];

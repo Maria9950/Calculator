@@ -12,7 +12,7 @@ extern "C" __declspec(dllexport) int plugin_arity() {
 extern "C" __declspec(dllexport) double plugin_eval(const double* args, int argc) {
     if (!args || argc != 2) {
         throw std::runtime_error("pow: arity mismatch");
-    }
+    } 
 
     double base = args[0];
     double exponent = args[1];

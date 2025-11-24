@@ -7,7 +7,7 @@
 #include <windows.h>
 
 class Loader {
-public:
+public: 
     Loader();
     ~Loader();
 
