@@ -1,4 +1,5 @@
 #include "loader.h"
+#include <stdexcept>
 
 typedef const char* (*p_name_fn)();
 typedef int         (*p_arity_fn)();
