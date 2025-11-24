@@ -6,7 +6,7 @@ class Loader;
 class Calculator {
 public:
     Calculator(std::string expression, Loader* loader);
-    double evaluate();
+    double evaluate(); 
 
 private:
     bool eof();

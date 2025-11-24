@@ -10,7 +10,7 @@ extern "C" __declspec(dllexport) int plugin_arity() {
 }
 
 static double to_rad(double deg) {
-    return deg * 3.14159265358979323846 / 180.0; // градусы -> радианы
+    return deg * 3.14159265358979323846 / 180.0; // градусы -> радианы 
 }
 
 extern "C" __declspec(dllexport) double plugin_eval(const double* args, int argc) {

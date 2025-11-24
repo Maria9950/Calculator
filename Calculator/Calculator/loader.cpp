@@ -1,10 +1,11 @@
 #include "loader.h"
+#include <stdexcept>
 
 typedef const char* (*p_name_fn)();
 typedef int         (*p_arity_fn)();
 typedef double      (*p_eval_fn)(const double*, int);
 
-Loader::Loader() {}
+Loader::Loader() {} 
 
 Loader::~Loader() {
     for (size_t i = 0; i < modules_.size(); ++i) {

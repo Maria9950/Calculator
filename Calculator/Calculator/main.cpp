@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
             }
         }
         else {
-            std::getline(std::cin, expr);
+            std::getline(std::cin, expr); 
         }
 
         Calculator calc(expr, &loader);

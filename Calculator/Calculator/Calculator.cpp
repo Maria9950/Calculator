@@ -6,7 +6,7 @@
 
 Calculator::Calculator(std::string expression, Loader* loader)
     : s_(expression), pos_(0), loader_(loader) {
-    skip_ws();
+    skip_ws(); 
 }
 
 bool Calculator::eof() {

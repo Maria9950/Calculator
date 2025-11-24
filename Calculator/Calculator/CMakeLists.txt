@@ -4,7 +4,7 @@ project(Calculator LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(Calculator
-    main.cpp
+    main.cpp 
     Calculator.cpp
     loader.cpp
 )

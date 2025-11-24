@@ -14,7 +14,7 @@ static double to_rad(double deg) {
 }
 
 extern "C" __declspec(dllexport) double plugin_eval(const double* args, int argc) {
-    if (!args || argc != 1) {
+    if (!args || argc != 1) { 
         throw std::runtime_error("sin: arity mismatch");
     }
     double x = args[0];
